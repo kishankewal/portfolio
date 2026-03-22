@@ -1,0 +1,51 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  
+  /* Refined Palette: Midnight & Indigo */
+  --color-background: #09090b; /* Zinc 950 */
+  --color-on-surface: #fafafa; /* Zinc 50 */
+  --color-on-surface-variant: #a1a1aa; /* Zinc 400 */
+  --color-primary: #6366f1; /* Indigo 500 */
+  --color-primary-container: #4338ca; /* Indigo 700 */
+  --color-secondary: #0ea5e9; /* Sky 500 */
+  --color-tertiary: #f59e0b; /* Amber 500 */
+  --color-surface-container: #18181b; /* Zinc 900 */
+  --color-surface-container-low: #141417;
+  --color-surface-container-high: #27272a; /* Zinc 800 */
+  --color-surface-bright: #3f3f46; /* Zinc 700 */
+  --color-outline-variant: #3f3f46;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    @apply bg-white text-zinc-900 dark:bg-background dark:text-on-surface font-sans antialiased selection:bg-primary/30 selection:text-primary;
+  }
+}
+
+.glass-card {
+  @apply bg-zinc-50/50 dark:bg-zinc-900/40 backdrop-blur-xl border border-zinc-200/50 dark:border-zinc-800/50;
+}
+
+.hero-gradient {
+  background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-zinc-300 dark:bg-zinc-800 rounded-full hover:bg-zinc-400 dark:hover:bg-zinc-700 transition-colors;
+}
