@@ -10,20 +10,25 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # 1. Checkout code
       - name: 📥 Checkout
         uses: actions/checkout@v3
 
+      # 2. Setup Node
       - name: 🟢 Setup Node
         uses: actions/setup-node@v3
         with:
           node-version: 20
 
+      # 3. Install dependencies (stable)
       - name: 📦 Install dependencies
-        run: npm install
+        run: npm install --omit=optional
 
+      # 4. Build project
       - name: 🏗️ Build project
         run: npm run build
 
+      # 5. Clean server directory
       - name: 🧹 Clean server
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -34,11 +39,23 @@ jobs:
             rm -rf /var/www/portfolio/*
             mkdir -p /var/www/portfolio
 
+      # 6. Upload dist folder
       - name: 📤 Upload dist
         uses: appleboy/scp-action@v0.1.4
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ec2-user
           key: ${{ secrets.EC2_SSH_KEY }}
-          source: "dist/*"
+          source: "dist"
           target: "/var/www/portfolio"
+
+      # 7. Fix folder structure (IMPORTANT)
+      - name: 📂 Fix folder structure
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ec2-user
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            cp -r /var/www/portfolio/dist/* /var/www/portfolio/
+            rm -rf /var/www/portfolio/dist
