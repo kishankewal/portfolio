@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, ReactElement } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   Moon, 
@@ -17,7 +17,8 @@ import {
   ExternalLink,
   ArrowRight,
   ShieldCheck,
-  Zap
+  Zap,
+  Code2
 } from 'lucide-react';
 
 const fadeInUp = {
@@ -33,6 +34,19 @@ const staggerContainer = {
     }
   }
 };
+
+interface SocialLink {
+  label: string;
+  href: string;
+  icon: ReactElement;
+}
+
+const socialLinks: SocialLink[] = [
+  // { label: 'GitHub',   href: 'https://github.com/kishankewal',          icon: <Github   size={20} /> },
+  { label: 'LinkedIn', href: 'https://linkedin.com/in/kishankewal',     icon: <Linkedin size={20} /> },
+  { label: 'Twitter',  href: 'https://twitter.com/ikishankewal',         icon: <Twitter  size={20} /> },
+  // { label: 'YouTube',  href: 'https://youtube.com/@kishankewal',        icon: <Youtube  size={20} /> },
+];
 
 export default function App() {
   const [isDarkMode, setIsDarkMode] = useState(true);
@@ -113,7 +127,7 @@ export default function App() {
               </div>
               
               <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight leading-[1.1] text-zinc-900 dark:text-white">
-                I don’t just build applications — <span className="hero-gradient">I solve the problems behind them.</span>
+                I don’t just build applications <span className="hero-gradient">I solve the problems behind them.</span>
               </h1>
               
               <p className="text-xl text-zinc-600 dark:text-zinc-400 max-w-2xl leading-relaxed">
@@ -171,8 +185,8 @@ export default function App() {
                       <div className="text-[10px] uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Years Exp</div>
                     </div>
                     <div className="p-4 bg-zinc-50 dark:bg-zinc-900/50 rounded-xl border border-zinc-200 dark:border-zinc-800">
-                      <div className="text-2xl font-bold text-sky-600 dark:text-secondary">ms</div>
-                      <div className="text-[10px] uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Latency</div>
+                      <div className="text-2xl font-bold text-sky-600 dark:text-secondary">5+</div>
+                      <div className="text-[10px] uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Products Built</div>
                     </div>
                   </div>
                 </div>
@@ -184,7 +198,7 @@ export default function App() {
         {/* About Section */}
         <section className="py-24 bg-zinc-50 dark:bg-zinc-950/50 scroll-mt-24" id="about">
           <div className="max-w-7xl mx-auto px-8">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
               <motion.div
                 initial="initial"
                 whileInView="animate"
@@ -194,15 +208,16 @@ export default function App() {
                 <h2 className="text-label-sm uppercase tracking-[0.2em] text-indigo-600 dark:text-primary mb-4 font-bold">The Philosophy</h2>
                 <h3 className="text-4xl font-bold tracking-tight mb-8 text-zinc-900 dark:text-white">Building with Intent</h3>
                 <div className="space-y-6 text-zinc-600 dark:text-zinc-400 text-lg leading-relaxed">
-                  <p>I didn’t start coding just to write code — I started because I wanted to build something meaningful. Over time, I realized what I enjoy most isn’t just development — it’s solving complex problems, debugging critical issues, and making systems faster, more secure, and more reliable.</p>
-                  <p>I’ve spent over 6 years working on real-world production systems, improving performance from seconds to milliseconds, and building features that users actually rely on.</p>
+                  <p>I didn’t start coding just to write code, I started because I wanted to build something meaningful. Over time, I realized what I enjoy most isn’t just development, it’s solving complex problems, debugging critical issues, and making systems faster, more secure, and more reliable.</p>
+                  <p>I’ve spent over 6 years working on real world production systems, improving performance from seconds to milliseconds, and building features that users actually rely on.</p>
                 </div>
               </motion.div>
               
               <div className="grid grid-cols-1 gap-6">
                 {[
                   { icon: <Zap className="text-amber-500" />, title: "Performance Optimization", desc: "Translating 8-second query bottlenecks into sub-millisecond responses through architectural precision." },
-                  { icon: <ShieldCheck className="text-sky-500" />, title: "Platform Security", desc: "Implementing robust rate limiting, content monitoring, and IP protection systems for enterprise scale." }
+                  { icon: <ShieldCheck className="text-sky-500" />, title: "Platform Security", desc: "Designed multi-layered security systems — including rate limiting, content moderation, CSRF protection, and authentication hardening — built to handle real world attack patterns." },
+                  { icon: <Code2 className="text-indigo-500" />, title: "Full-Stack Ownership", desc: "Built complete applications from scratch — from database schema and API design to frontend UI with security baked in at every layer." }
                 ].map((item, idx) => (
                   <motion.div 
                     key={idx}
@@ -372,8 +387,8 @@ export default function App() {
                 img: "https://picsum.photos/seed/spa/800/600"
               },
               {
-                title: "Doaric",
-                desc: "A personal project focusing on developer productivity and workflow automation.",
+                title: "Fitness App",
+                desc: "A personal project to build a React Native fitness app with workout tracking, progress analytics, and social features.",
                 tag: "In Progress",
                 tagColor: "bg-amber-500/10 text-amber-600 dark:text-amber-400",
                 linkText: "Personal Project",
@@ -437,29 +452,30 @@ export default function App() {
             
             <div className="relative z-10 max-w-3xl mx-auto">
               <h2 className="text-label-sm uppercase tracking-[0.2em] text-indigo-600 dark:text-primary mb-6 font-bold">Connect</h2>
-              <h3 className="text-4xl md:text-5xl font-bold tracking-tight mb-8 text-zinc-900 dark:text-white">Ready to solve real-world problems?</h3>
-              <p className="text-xl text-zinc-600 dark:text-zinc-400 mb-12 leading-relaxed">
-                If you're building something interesting or need a developer who can solve real problems — let's connect.
+              <h3 className="text-4xl md:text-5xl font-bold tracking-tight mb-8 text-zinc-900 dark:text-white">
+                Ready to solve real world problems?
+              </h3>
+              <p className="text-xl text-zinc-600 dark:text-zinc-400 mb-1 leading-relaxed">
+                If you're building something interesting or need a developer who can solve real problems then let's connect.
               </p>
               
               <div className="flex flex-col items-center gap-6">
-                <motion.a 
+                {/* <motion.a 
                   href="mailto:kishan@example.com"
                   className="text-3xl font-bold text-indigo-600 dark:text-primary hover:text-sky-600 dark:hover:text-secondary transition-colors underline decoration-zinc-200 dark:decoration-zinc-800 underline-offset-8"
                   whileHover={{ scale: 1.05 }}
                 >
                   kishan@example.com
-                </motion.a>
+                </motion.a> */}
                 
                 <div className="flex gap-6 mt-8">
-                  {[
-                    { icon: <Github size={20} />, label: "GitHub" },
-                    { icon: <Linkedin size={20} />, label: "LinkedIn" },
-                    { icon: <Twitter size={20} />, label: "Twitter" }
-                  ].map((social, i) => (
-                    <motion.a 
-                      key={i}
-                      href="#" 
+                  {socialLinks.map((social) => (
+                    <motion.a
+                      key={social.label}
+                      href={social.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={social.label}
                       className="w-12 h-12 rounded-full glass-card flex items-center justify-center hover:bg-white dark:hover:bg-zinc-800 transition-all text-zinc-500 dark:text-zinc-400 hover:text-indigo-600 dark:hover:text-primary"
                       whileHover={{ y: -5, scale: 1.1 }}
                       whileTap={{ scale: 0.9 }}
@@ -482,9 +498,15 @@ export default function App() {
             <p className="text-sm text-zinc-500 dark:text-zinc-400 mt-1">© {new Date().getFullYear()} Kishan Kewal. Built with focus and consistency.</p>
           </div>
           <div className="flex gap-8">
-            {['GitHub', 'LinkedIn', 'Twitter', 'YouTube'].map(link => (
-              <a key={link} href="#" className="text-zinc-500 dark:text-zinc-400 hover:text-amber-600 dark:hover:text-tertiary transition-colors text-sm font-medium">
-                {link}
+            {socialLinks.map((link) => (
+              <a
+                key={link.label}
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-zinc-500 dark:text-zinc-400 hover:text-amber-600 dark:hover:text-tertiary transition-colors text-sm font-medium"
+              >
+                {link.label}
               </a>
             ))}
           </div>
