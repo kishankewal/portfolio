@@ -18,8 +18,11 @@ jobs:
         with:
           node-version: 18
 
-      - name: 📦 Install dependencies
-        run: npm ci
+      - name: 📦 Install dependencies (fix tailwind bug)
+        run: |
+          rm -rf node_modules package-lock.json
+          npm install
+          npm rebuild
 
       - name: 🏗️ Build project
         run: npm run build
