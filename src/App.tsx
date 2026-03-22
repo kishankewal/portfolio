@@ -78,7 +78,7 @@ export default function App() {
           </div>
 
           <div className="flex items-center space-x-4">
-            <button 
+            {/* <button 
               onClick={toggleDarkMode}
               className="p-2.5 rounded-xl bg-zinc-100 dark:bg-zinc-900 hover:bg-zinc-200 dark:hover:bg-zinc-800 transition-all text-zinc-600 dark:text-zinc-400 hover:text-indigo-600 dark:hover:text-primary border border-zinc-200 dark:border-zinc-800"
               aria-label="Toggle theme"
@@ -93,7 +93,7 @@ export default function App() {
             >
               <Download size={16} />
               Resume
-            </motion.a>
+            </motion.a> */}
           </div>
         </div>
       </nav>
