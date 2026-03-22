@@ -18,11 +18,11 @@ jobs:
         with:
           node-version: 18
 
-      - name: 📦 Install dependencies (fix tailwind bug)
-        run: |
-          rm -rf node_modules package-lock.json
-          npm install
-          npm rebuild
+      - name: Fix Tailwind native issue
+        run: npm config set optional false
+
+      - name: 📦 Install dependencies
+        run: npm install --no-optional
 
       - name: 🏗️ Build project
         run: npm run build
