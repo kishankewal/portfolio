@@ -212,7 +212,7 @@ export default function App() {
                   <p>I’ve spent over 6 years working on real world production systems, improving performance from seconds to milliseconds, and building features that users actually rely on.</p>
                 </div>
               </motion.div>
-              
+            
               <div className="grid grid-cols-1 gap-6">
                 {[
                   { icon: <Zap className="text-amber-500" />, title: "Performance Optimization", desc: "Translating 8-second query bottlenecks into sub-millisecond responses through architectural precision." },
