@@ -1,4 +1,4 @@
-name: 🚀 Deploy Portfolio
+name: 🚀 Deploy Portfolio (S3 + CloudFront)
 
 on:
   push:
@@ -14,13 +14,13 @@ jobs:
       - name: 📥 Checkout
         uses: actions/checkout@v3
 
-      # 2. Setup Node
+      # 2. Setup Node.js
       - name: 🟢 Setup Node
         uses: actions/setup-node@v3
         with:
           node-version: 20
 
-      # 3. Install dependencies (stable)
+      # 3. Install dependencies
       - name: 📦 Install dependencies
         run: npm ci --include=optional
 
@@ -28,34 +28,22 @@ jobs:
       - name: 🏗️ Build project
         run: npm run build
 
-      # 5. Clean server directory
-      - name: 🧹 Clean server
-        uses: appleboy/ssh-action@v1.0.3
+      # 5. Configure AWS credentials
+      - name: 🔐 Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
         with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ec2-user
-          key: ${{ secrets.EC2_SSH_KEY }}
-          script: |
-            rm -rf /var/www/portfolio/*
-            mkdir -p /var/www/portfolio
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+          aws-region: ap-south-1
 
-      # 6. Upload dist folder
-      - name: 📤 Upload dist
-        uses: appleboy/scp-action@v0.1.4
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ec2-user
-          key: ${{ secrets.EC2_SSH_KEY }}
-          source: "dist"
-          target: "/var/www/portfolio"
+      # 6. Upload build to S3 (clean old files)
+      - name: ☁️ Upload to S3
+        run: |
+          aws s3 sync dist/ s3://kishankewal.com --delete
 
-      # 7. Fix folder structure (IMPORTANT)
-      - name: 📂 Fix folder structure
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ec2-user
-          key: ${{ secrets.EC2_SSH_KEY }}
-          script: |
-            cp -r /var/www/portfolio/dist/* /var/www/portfolio/
-            rm -rf /var/www/portfolio/dist
+      # 7. Invalidate CloudFront cache (FULL CLEAR)
+      - name: 🔄 Invalidate CloudFront Cache
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} \
+            --paths "/*"
