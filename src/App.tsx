@@ -1,5 +1,6 @@
 import { useState, useEffect, ReactElement } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import './assets/Scss/custom.scss';
 import { 
   Moon, 
   Sun, 
@@ -107,7 +108,7 @@ export default function App() {
         </div>
       </nav>
 
-      <main className="pt-20">
+      <main className="pt-20 main-container" >
         {/* Hero Section */}
         <section className="relative min-h-[85vh] flex items-center px-8 max-w-7xl mx-auto overflow-hidden scroll-mt-24">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center w-full">
