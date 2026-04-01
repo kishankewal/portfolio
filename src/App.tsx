@@ -275,7 +275,7 @@ export default function App() {
               <div className="text-sky-600 dark:text-secondary mb-4 group-hover:scale-110 transition-transform"><Layers size={32} /></div>
               <h3 className="text-xl font-bold mb-4 text-zinc-900 dark:text-white">Frontend</h3>
               <div className="flex flex-wrap gap-2">
-                {['React', 'TypeScript'].map(skill => (
+                {['React', 'TypeScript', 'Javascript'].map(skill => (
                   <span key={skill} className="px-3 py-1 bg-white dark:bg-zinc-950 rounded-lg text-sm border border-zinc-200 dark:border-zinc-800 hover:border-sky-500 dark:hover:border-secondary/50 transition-colors text-zinc-700 dark:text-zinc-300">
                     {skill}
                   </span>
