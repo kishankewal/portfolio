@@ -30,6 +30,7 @@ jobs:
         with:
           name: build-files
           path: dist/
+
   # ================= DEV =================
   deploy-dev:
     if: github.ref == 'refs/heads/develop'
@@ -43,7 +44,6 @@ jobs:
           name: build-files
           path: dist/
 
-
       - name: 🔐 Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -54,7 +54,6 @@ jobs:
       - name: ☁️ Upload to DEV S3
         run: |
           aws s3 sync dist/ s3://${{ secrets.DEV_S3_BUCKET }} --delete
-
 
   # ================= PRODUCTION =================
   deploy-prod:
@@ -76,10 +75,21 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
           aws-region: ap-south-1
 
-      - name: ☁️ Upload to PROD S3
-        run: |
-          aws s3 sync dist/ s3://kishankewal.com --delete
+      # 🔥 NEW: Create version
+      - name: Set version
+        run: echo "VERSION=$(date +%s)" >> $GITHUB_ENV
 
+      # 🔥 NEW: Upload to version folder
+      - name: Upload versioned build
+        run: |
+          aws s3 sync dist/ s3://kishankewal.com/${{ env.VERSION }}
+
+      # 🔥 NEW: Update current version
+      - name: Update current folder
+        run: |
+          aws s3 sync s3://kishankewal.com/${{ env.VERSION }} s3://kishankewal.com/current
+
+      # SAME: Invalidate CloudFront
       - name: 🔄 Invalidate CloudFront Cache
         run: |
           aws cloudfront create-invalidation \
